@@ -16,6 +16,7 @@ enum RaylibLogLevel {
     None = 7,
 }
 
+#[cfg(not(windows))]
 #[no_mangle]
 unsafe extern "C" fn rl_log_callback(
     level: i32,
@@ -82,6 +83,9 @@ unsafe extern "C" fn rl_log_callback(
 
 /// Configures raylib to use our custom logging code
 pub unsafe fn rl_use_rust_logging() {
-    log::debug!("Configuring raylib to use the `log` crate");
-    super::ffi::SetTraceLogCallback(Some(rl_log_callback));
+    #[cfg(not(windows))]
+    {
+        log::debug!("Configuring raylib to use the `log` crate");
+        super::ffi::SetTraceLogCallback(Some(rl_log_callback));
+    }
 }
