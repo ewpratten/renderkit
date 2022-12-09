@@ -28,7 +28,7 @@ impl Window {
             raylib::SetWindowState(
                 raylib::ConfigFlags_FLAG_VSYNC_HINT
                     | raylib::ConfigFlags_FLAG_WINDOW_RESIZABLE
-                    | raylib::ConfigFlags_FLAG_MSAA_4X_HINT,
+                    | raylib::ConfigFlags_FLAG_MSAA_4X_HINT as std::os::raw::c_uint,
             );
 
             // Create a window
@@ -37,7 +37,6 @@ impl Window {
                 size.y as i32,
                 format!("{}\0", title).as_ptr() as *const i8,
             );
-
         }
 
         Self {}
