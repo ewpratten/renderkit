@@ -1,47 +1,38 @@
+use renderkit::raylib::window::Window;
+
 pub fn main() {
     unsafe {
+        // Set up logging
+        env_logger::init();
+
         // Create a window
-        raylib_ffi::InitWindow(
-            800,
-            450,
-            "raylib-ffi example - basic window\0".as_ptr() as *const i8,
+        let window = Window::new(
+            cgmath::Vector2::new(800, 450),
+            "renderkit example - basic window",
         );
 
         // Render the window
         loop {
             // Close the window if requested
-            if raylib_ffi::WindowShouldClose() {
+            if renderkit::raylib::ffi::WindowShouldClose() {
                 break;
             }
 
             // Begin a draw call
-            raylib_ffi::BeginDrawing();
+            renderkit::raylib::ffi::BeginDrawing();
 
             // Render text and a background
-            raylib_ffi::ClearBackground(raylib_ffi::Color {
-                r: 255,
-                g: 255,
-                b: 255,
-                a: 255,
-            });
-            raylib_ffi::DrawText(
-                "Congrats! You created your first window!\0".as_ptr() as *const i8,
+            renderkit::raylib::ffi::ClearBackground(renderkit::raylib::palette::RAYWHITE.into());
+            renderkit::raylib::ffi::DrawText(
+                cstr::cstr!("Congrats! You created your first window!").as_ptr(),
                 190,
                 200,
                 20,
-                raylib_ffi::Color {
-                    r: 0,
-                    g: 0,
-                    b: 0,
-                    a: 255,
-                },
+                renderkit::raylib::palette::BLACK.into(),
             );
 
             // End the draw call
-            raylib_ffi::EndDrawing();
+            renderkit::raylib::ffi::EndDrawing();
         }
-
-        // Clean up
-        raylib_ffi::CloseWindow();
     }
 }
